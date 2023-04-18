@@ -1,7 +1,7 @@
 from fastapi import APIRouter
+from quarter_lib.logging import setup_logging
 
 from helper.deployment_helper import upadte_application
-from helper.logging_helper import setup_logging
 
 logger = setup_logging(__file__)
 

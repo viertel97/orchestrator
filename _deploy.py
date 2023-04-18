@@ -1,5 +1,6 @@
+from quarter_lib.logging import setup_logging
+
 from helper.deployment_helper import deploy_to_server_with_git
-from helper.logging_helper import setup_logging
 
 logger = setup_logging(__file__)
 

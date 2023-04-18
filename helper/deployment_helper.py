@@ -1,7 +1,7 @@
 import paramiko
 from quarter_lib.akeyless import get_secrets
 
-from helper.logging_helper import setup_logging
+from quarter_lib.logging import setup_logging
 from helper.ssh_helper import cmd, generate_pm2_command, generate_command, generate_update_command, \
     generate_start_pm2_command, ssh_command
 

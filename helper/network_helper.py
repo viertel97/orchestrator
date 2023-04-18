@@ -1,10 +1,9 @@
 from json import JSONDecodeError, loads
 
 from fastapi import Request
+from quarter_lib.logging import setup_logging
 
-from helper.logging_helper import setup_logging
-
-setup_logging(__file__)
+logger = setup_logging(__file__)
 
 
 async def log_request_info(request: Request):

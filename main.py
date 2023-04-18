@@ -5,8 +5,8 @@ import uvicorn
 from fastapi import FastAPI, Request, status, Depends
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from quarter_lib.logging import setup_logging
 
-from helper.logging_helper import setup_logging
 from helper.network_helper import log_request_info
 from router import (
     deployment_router,
