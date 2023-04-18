@@ -8,7 +8,7 @@ PM2_PATH = "/home/pi/.config/nvm/versions/node/v16.18.0/bin"
 
 
 def generate_command(command, application_path):
-    temp_cmd = "pwd; cd " + application_path + "; " + command
+    temp_cmd = "cd " + application_path + "; " + command
     logger.info("generate_command: " + temp_cmd)
     return temp_cmd
 

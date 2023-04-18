@@ -51,9 +51,8 @@ def deploy_to_server_with_git(application_path, skip_update=False):
     if not skip_update:
         ssh_command(
             ssh,
-            "{update_command}; sleep 5; {update_command_custom}".format(
+            "{update_command}".format(
                 update_command=generate_update_command(absolute_application_path),
-                update_command_custom=generate_update_command(absolute_application_path, "requirements_custom.txt"),
             ),
         )
     ssh_command(ssh, "sleep 5;")
