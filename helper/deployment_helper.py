@@ -1,7 +1,7 @@
 import paramiko
 from quarter_lib.akeyless import get_secrets
-
 from quarter_lib.logging import setup_logging
+
 from helper.ssh_helper import cmd, generate_pm2_command, generate_command, generate_update_command, \
     generate_start_pm2_command, ssh_command
 
@@ -13,17 +13,16 @@ PM2_PATH_NOTES = "/home/pi/.config/nvm/versions/node/v8.17.0/bin"
 
 
 def upadte_application(application):
-    cmd(generate_pm2_command("delete", application), application)
+    cmd(generate_pm2_command("delete", application))
     absolute_application_path = PI_PYTHON_PATH + "/" + application
-    cmd(generate_command("git pull", absolute_application_path), absolute_application_path)
+    cmd(generate_command("git pull", absolute_application_path))
 
     cmd(
-        "{update_command}; sleep 5; {update_command_custom}".format(
+        "{update_command}".format(
             update_command=generate_update_command(absolute_application_path),
-            update_command_custom=generate_update_command(absolute_application_path, "requirements_custom.txt"),
         ),
     )
-    cmd("sleep 5;")
+    cmd("sleep 5")
     cmd(
         "{start_command}".format(
             start_command=generate_start_pm2_command(application),

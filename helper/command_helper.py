@@ -38,7 +38,6 @@ def ssh_command(ssh, command):
         print(line.encode("utf-8"), end="")
 
 
-def cmd(command, application_path):
-    temp_cmd = generate_command(command, application_path)
-    logger.info(temp_cmd)
-    return subprocess.check_output(temp_cmd, shell=True).decode("utf-8").strip()
+def bash_command(command):
+    logger.info("command: " + command)
+    return subprocess.check_output(command, shell=True).decode("utf-8").strip()

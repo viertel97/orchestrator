@@ -11,5 +11,6 @@ router = APIRouter()
 @logger.catch
 @router.post("/{application}")
 async def deploy(application: str):
-    logger.info(f"{application}")
+    logger.info("received request for application: %s", application)
     upadte_application(application)
+    logger.info("done")
