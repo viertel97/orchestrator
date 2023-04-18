@@ -29,7 +29,7 @@ def generate_update_command(application_path: object, requirements_file: object 
     return temp_cmd
 
 
-def ssh_command(ssh, command):
+def run_ssh_command(ssh, command):
     logger.info(command)
     ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command(command)
     for line in iter(ssh_stdout.readline, ""):
@@ -38,6 +38,6 @@ def ssh_command(ssh, command):
         print(line.encode("utf-8"), end="")
 
 
-def bash_command(command):
+def run_bash_command(command):
     logger.info("command: " + command)
     return subprocess.check_output(command, shell=True).decode("utf-8").strip()
