@@ -22,9 +22,9 @@ PM2_PATH_NOTES = "/home/pi/.config/nvm/versions/node/v8.17.0/bin"
 
 
 def upadte_application(application):
-    cmd(generate_pm2_command("delete", application))
+    cmd(generate_pm2_command("delete", application), application)
     absolute_application_path = PI_PYTHON_PATH + "/" + application
-    cmd(generate_command("git pull", absolute_application_path))
+    cmd(generate_command("git pull", absolute_application_path), absolute_application_path)
 
     cmd(
         "{update_command}; sleep 5; {update_command_custom}".format(
@@ -45,8 +45,8 @@ def deploy_to_server_with_git(application_path, skip_update=False):
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(SERVER, username=USERNAME, password=PASSWORD)
     ssh_command(ssh, generate_pm2_command("delete", application_path))
-    ssh_command(ssh, "git pull")
     absolute_application_path = PI_PYTHON_PATH + "/" + application_path
+    ssh_command(ssh, generate_command("git pull", absolute_application_path))
 
     if not skip_update:
         ssh_command(
