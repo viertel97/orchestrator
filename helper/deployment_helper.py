@@ -1,20 +1,11 @@
-import os
-
 import paramiko
-from loguru import logger
 from quarter_lib.akeyless import get_secrets
 
+from helper.logging_helper import setup_logging
 from helper.ssh_helper import cmd, generate_pm2_command, generate_command, generate_update_command, \
     generate_start_pm2_command, ssh_command
 
-logger.add(
-    os.path.join(os.path.dirname(os.path.abspath(__file__)) + "/logs/" + os.path.basename(__file__) + ".log"),
-    format="{time:YYYY-MM-DD at HH:mm:ss} | {level} | {message}",
-    backtrace=True,
-    diagnose=True,
-)
-SERVER, USERNAME, PASSWORD = get_secrets(
-    ['raspberrypi/address', 'raspberrypi/username', 'raspberrypi/password'])
+logger = setup_logging(__file__)
 
 PI_PYTHON_PATH = "/home/pi/code"
 PM2_PATH = "/home/pi/.config/nvm/versions/node/v16.18.0/bin"
@@ -41,9 +32,12 @@ def upadte_application(application):
 
 
 def deploy_to_server_with_git(application_path, skip_update=False):
+    server, username, password = get_secrets(
+        ['raspberrypi/address', 'raspberrypi/username', 'raspberrypi/password'])
+
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(SERVER, username=USERNAME, password=PASSWORD)
+    ssh.connect(server, username=username, password=password)
     ssh_command(ssh, generate_pm2_command("delete", application_path))
     absolute_application_path = PI_PYTHON_PATH + "/" + application_path
     ssh_command(ssh, generate_command("git pull", absolute_application_path))
@@ -55,7 +49,7 @@ def deploy_to_server_with_git(application_path, skip_update=False):
                 update_command=generate_update_command(absolute_application_path),
             ),
         )
-    ssh_command(ssh, "sleep 5;")
+    ssh_command(ssh, "sleep 5")
     ssh_command(
         ssh,
         "{start_command}".format(
