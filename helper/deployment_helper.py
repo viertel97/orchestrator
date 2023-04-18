@@ -39,6 +39,7 @@ def deploy_to_server_with_git(application_path, skip_update=False):
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(server, username=username, password=password)
     ssh_command(ssh, generate_pm2_command("delete", application_path))
+    ssh_command(ssh, generate_pm2_command("delete", "pagekite"))
     absolute_application_path = PI_PYTHON_PATH + "/" + application_path
     ssh_command(ssh, generate_command("git pull", absolute_application_path))
 
